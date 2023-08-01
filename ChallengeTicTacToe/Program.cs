@@ -1,5 +1,4 @@
 ﻿
-using System;
 
 namespace ChallengeTicTacToe
 {
@@ -12,6 +11,8 @@ namespace ChallengeTicTacToe
             {'4', '5', '6'}, //Row 1
             {'7', '8', '9'}  //Row 2
         };
+       
+        static int turn = 0;
 
         static void Main(string[] args)
         {
@@ -25,12 +26,12 @@ namespace ChallengeTicTacToe
                 if (player == 2)
                 {
                     player = 1;
-                    EnterXorO(player, input);
+                    EnterXorO('O', input);
                 }
                 else if(player == 1)
                 {
                     player = 2;
-                    EnterXorO(player, input);
+                    EnterXorO('X', input);
                 }
 
                 setField();
@@ -58,6 +59,20 @@ namespace ChallengeTicTacToe
                         {
                             Console.WriteLine("\nPlayer 1 has won");
                         }
+
+                        Console.WriteLine("Please press any key to reset the game!");
+                        Console.ReadKey();
+                        //TODO reset field 
+                        ResetField();
+
+                        break;
+                    }
+                    else if(turn == 10)
+                    {
+                        Console.WriteLine("\n DRAW ");
+                        Console.WriteLine("Please press any key to reset the game!");
+                        Console.ReadKey();
+                        ResetField();
                         break;
                     }
                 }
@@ -124,6 +139,21 @@ namespace ChallengeTicTacToe
             }while (true);            
         }
 
+        public static void ResetField()
+        {
+            //Create new array playFiledInitial for reset the game
+            char[,] playFiledInitial =
+             {
+                {'1', '2', '3'}, //Row 0
+                {'4', '5', '6'}, //Row 1
+                {'7', '8', '9'}  //Row 2
+            };
+
+            playFiled = playFiledInitial;
+            setField();
+            turn = 0;
+        }
+
         public static void setField()
         {
             //Todo replace numbers with variables
@@ -137,21 +167,11 @@ namespace ChallengeTicTacToe
             Console.WriteLine("        |        |       ");
             Console.WriteLine("   {0}    |   {1}    |   {2}     ", playFiled[2, 0], playFiled[2, 1], playFiled[2, 2]);
             Console.WriteLine("        |        |       ");
+            turn++;
         }
 
-        public static void EnterXorO(int player, int input) 
+        public static void EnterXorO(char playerSign, int input) 
         {
-            char playerSign = ' ';
-
-            if (player == 1)
-            {
-                playerSign = 'X';
-            }
-            else if (player == 2)
-            {
-                playerSign = 'O';
-            }
-
             switch (input)
             {
                 case 1:
